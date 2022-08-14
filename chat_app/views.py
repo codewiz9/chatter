@@ -18,18 +18,51 @@ class Friend_Dashbord(generic.ListView):
     template_name = 'chat_app/friend_dashbord.html'
 
 class Friend_Request(generic.RedirectView):
-    #This is the form for sending requests S=sent
-    models = Friend_Request, Friend_list, Friend_Info
+    #This is the form for sending requests
+    models = Friend_Request, Friend_List, Friend_Info
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("chat_app:friends_dashbord", kwargs={"slug": self.kwargs.get("slug")})
+
     def get(self, request, *args, **kwargs):
         friend = get_object_or_404(Friend_Info, slug=self.kwargs.get("slug"))
+        user = get_user_model()
 
         try:
-            Friend_Request.objects.create(friends=)
+            Friend_Request.objects.create(sent_to=friend, sent_from=self.user)
+
+        except User>DoesNotExist:
+            message.warning(self.request, ("something went wrong pleas relod the page"))
+
+        else:
+            message.success(self.request, "Your fried request was successfully sent to {}".format(Friend_Request.sent_to))
+
+
+def Accept_Friends(request, self, *args, **kwargs):
+    f_request = modles.Friend_Request.objects.filter(user=self.request.user, friendrequest__slug=self.kwargs.get("slug")).get()
+    f_request += 1
+    f_request.save()
+    return reverse("chat_app:friends_dashbord", pk=kwargs["pk"])
+
+
+def Reject_Friends(request, *args):
+    f_request = modles.Friend_Request.objects.filter(user=self.request.user, friendrequest__slug=self.kwargs.get("slug")).get()
+    f_request += 2
+    f_request.save()
+    return reverse("chat_app:friends_dashbord", pk=kwargs["pk"])
+
 
 class Find_Friends(generic.FormView):
     #this will be the page where you can serch for friends
-    models = Friend
-    template_name = 'chat_app/dashbord.html'
+    models = Friend_Info, Friend_List
+    template_name = 'chat_app/find_friend.html'
+
+    def sech_bar(request):
+        if request.method == 'GET':
+            serch = request.GET.get('serch')
+            users = Friend_List.objects.all().filter(friends=serch)
+            return render(request, 'find_friend.html', {"users":users})
+
 
 ###Chat###
 #the chat portion of the app will be handeled in two parts one will the the form to send the chat and one will be the
@@ -37,7 +70,7 @@ class Find_Friends(generic.FormView):
 class Chat_List(generic.ListView):
     #This will be the list of all the chats sent and resived
     models = Chat
-    template_name = 'chat_app/dashbord.html'
+    template_name = 'chat_app/chat.html'
 
 class Chat_Form(generic.FormView):
     models = Chat
