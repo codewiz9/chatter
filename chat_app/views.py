@@ -75,7 +75,7 @@ class Friend_List(generic.ListView):
 #list of all the chats the form view will be inclued on the Chat_list template
 
 class Make_New_Chat(generic.RedirectView):
-    model = chat
+    model = Chat
 
     def get_redirect_url(self, *args, **kwargs):
         return reverse("chat_app:chat", kwargs={"slug": self.kwargs.get("slug")})
