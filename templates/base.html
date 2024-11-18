@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
+
 <html lang="en" dir="ltr">
   <head>
     <!-- Latest compiled and minified CSS -->
@@ -21,9 +21,6 @@
             <li><a href="{% url 'home' %}" class="btn btn-simple button"><h3>Home</h3></a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'accounts:logout' %}" class="btn btn-simple"><h3>Logout</h3></a></li>
-            <li><a href="{% url 'chat_app:dashbord' %}" class="btn btn-simple"><h3>Dashboard</h3></a></li>
-            <li><a href="{% url 'chat_app:friends_dashbord' %}" class="btn btn-simple"><h3>Friends</h3></a></li>
-            <li><a href="{% url 'chat_app:chat' %}" class="btn btn-simple"><h3>Logout</h3></a></li>
             {% else %}
             <li><a href="{% url 'accounts:login' %}" class="btn btn-simple"><h3>Login</h3></a></li>
             <li><a href="{% url 'accounts:signup' %}" class="btn btn-simple"><h3>Sign Up</h3></a></li>
