@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% bootstrap4 %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1>Your Chats</h1>
+
+    <ul class="list-group">
+        {% for chat in latest_chats %}
+            <li class="list-group-item">{{ chat.message }} </li> 
+        {% endfor %}
+        </ul>
+  </div>
+{% endblock %}
